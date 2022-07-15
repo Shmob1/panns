@@ -1,15 +1,15 @@
 from logging import getLogger
 
+
 import os
 from pathlib import Path
 
 import torch
 
 
-# from gcloud import upload_file
-from .config import labels, classes_num, panns_path
 from .pytorch_utils import move_data_to_device
 from .models import Cnn14, Cnn14_DecisionLevelMax
+from .utils import download_to_file
 
 log = getLogger(__name__)
 
@@ -21,14 +21,10 @@ def get_filename(path):
     return na
 
 
-def download_to_file(url: Path | str, out_file: Path | str):
-    if type(url) is Path:
-        url = url.as_posix()
-
-
 class AudioTagging(object):
     def __init__(self, model=None, checkpoint_path=None, model_url=None, device="cuda"):
         """Audio tagging inference wrapper."""
+        from .config import labels, classes_num, panns_path
 
         if not model_url:
             model_url = (
@@ -44,8 +40,6 @@ class AudioTagging(object):
             or os.path.getsize(checkpoint_path) < 3e8
         ):
             download_to_file(model_url, checkpoint_path)
-            # if config.gcloud.gcloud:
-            #    #upload_file(checkpoint_path, config.gcloud.panns_path)
 
         if device == "cuda" and torch.cuda.is_available():
             self.device = "cuda"
@@ -95,6 +89,7 @@ class AudioTagging(object):
 
 class SoundEventDetection(object):
     def __init__(self, model=None, checkpoint_path=None, device="cuda"):
+        from .config import labels, classes_num
 
         # assert False, "This needs to be fixed first"
 

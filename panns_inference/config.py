@@ -6,7 +6,7 @@ from pathlib import Path
 import os
 import csv
 
-from utils import download_to_file
+from .utils import download_to_file
 
 
 log = getLogger(__name__)
@@ -21,7 +21,7 @@ id_to_ix: dict
 labels_csv_path: Path
 
 
-def init(panns_path_in: Path):
+def init(panns_path_in: Path) -> List[str]:
     global labels, panns_path, classes_num, labels_csv_path
     global lb_to_ix, ix_to_lb, id_to_ix
     panns_path = panns_path_in
@@ -50,6 +50,8 @@ def init(panns_path_in: Path):
     ix_to_lb = {i: label for i, label in enumerate(labels)}
 
     id_to_ix = {id: i for i, id in enumerate(ids)}
+
+    return labels
 
 
 def __download_labels():
