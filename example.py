@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import librosa
-from panns_inference import AudioTagging, SoundEventDetection, labels
+from panns_inference import AudioTagging, SoundEventDetection, init
 
 
 def print_audio_tagging_result(clipwise_output):
@@ -11,6 +11,7 @@ def print_audio_tagging_result(clipwise_output):
     Args:
       clipwise_output: (classes_num,)
     """
+    labels = init()
     sorted_indexes = np.argsort(clipwise_output)[::-1]
 
     # Print audio tagging top probabilities
@@ -28,6 +29,7 @@ def plot_sound_event_detection_result(framewise_output):
     Args:
       framewise_output: (time_steps, classes_num)
     """
+    labels = init()
     out_fig_path = "results/sed_result.png"
     os.makedirs(os.path.dirname(out_fig_path), exist_ok=True)
 
