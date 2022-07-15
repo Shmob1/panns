@@ -1,2 +1,2 @@
 from .inference import AudioTagging, SoundEventDetection
-from .config import init, labels
+from .config import init
