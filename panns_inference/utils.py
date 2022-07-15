@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from typing import Union
 import os
 from pathlib import Path
 import requests  # type: ignore[import]
@@ -14,7 +15,7 @@ def create_folder_safe(fd):
         os.makedirs(fd)
 
 
-def download_to_file(url: Path | str, out_file: Path | str):
+def download_to_file(url: Union[Path, str], out_file: Union[Path, str]):
     if type(url) is Path:
         url = url.as_posix()
 
